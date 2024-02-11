@@ -10,6 +10,9 @@
 
 {% block content %}
   <h2>All Income</h2>
+  <nav>
+    <a href="{% url 'add_income' %}">Add</a>
+  </nav>
   <ul>
     {% for income in incomes %}
       <li>
