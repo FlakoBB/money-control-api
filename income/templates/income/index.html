@@ -5,10 +5,18 @@
 {% endblock %}
 
 {% block heading %}
-  Income main page
+  Income
 {% endblock %}
 
 {% block content %}
-  <h2>ADD NEW INCOME</h2>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur explicabo, consequuntur debitis nesciunt omnis nobis distinctio nostrum facere neque. Dolor aliquid eum illum consequatur, recusandae alias saepe dolore adipisci odio?</p>
+  <h2>All Income</h2>
+  <ul>
+    {% for income in incomes %}
+      <li>
+        <h3>{{ income.title }}</h3>
+        <p>${{ income.amount }}</p>
+        <p>{{ income.date }}</p>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
