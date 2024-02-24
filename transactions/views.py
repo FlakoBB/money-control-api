@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from .models import Income, Expense
 from .forms import NewIncomForm, NewExpenseForm
 
-def income(request):
+def income_list(request):
   income = Income.objects.all()
-  return render(request, 'transactions/index.html', {'incomes': income})
+
+  context = {
+    'incomes': income,
+  }
+
+  return render(request, 'transactions/income_list.html', context)
 
 def add_income(request):
   if request.method == 'POST':
@@ -12,12 +17,16 @@ def add_income(request):
 
     if form.is_valid():
       form.save()
-      return redirect('income')
+      return redirect('income_list')
   
   else:
     form = NewIncomForm()
+
+  context = {
+    'form': form,
+  }
   
-  return render(request, 'transactions/add_income.html', {'form': form})
+  return render(request, 'transactions/add_income.html', context)
 
 def expense_list(request):
   expenses = Expense.objects.all()
