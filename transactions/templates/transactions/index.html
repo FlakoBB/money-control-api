@@ -17,7 +17,7 @@
     {% for income in incomes %}
       <li>
         <h3>{{ income.title }}</h3>
-        <p>${{ income.amount }}</p>
+        <p>${{ income.amount|floatformat:'2g' }}</p>
         <p>{{ income.date }}</p>
       </li>
     {% endfor %}

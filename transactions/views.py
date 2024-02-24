@@ -4,7 +4,7 @@ from .forms import NewIncomForm
 
 def income(request):
   income = Income.objects.all()
-  return render(request, 'income/index.html', {'incomes': income})
+  return render(request, 'transactions/index.html', {'incomes': income})
 
 def add_income(request):
   if request.method == 'POST':
@@ -17,4 +17,4 @@ def add_income(request):
   else:
     form = NewIncomForm()
   
-  return render(request, 'income/add_income.html', {'form': form})
+  return render(request, 'transactions/add_income.html', {'form': form})
