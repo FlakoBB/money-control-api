@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Expenses
+{% endblock %}
+
+{% block heading %}
+  Expense List
+{% endblock %}
+
+{% block content %}
+  <h2>All Expenses</h2>
+  <nav>
+    <a href="{% url 'add_expense' %}">Add</a>
+  </nav>
+  <ul>
+    {% for expense in expenses %}
+      <li>
+        <h3>{{ expense.title }}</h3>
+        <p>${{ expense.amount|floatformat:'2g' }}</p>
+        <p>{{ expense.date }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
