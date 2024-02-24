@@ -5,9 +5,16 @@
 {% endblock %}
 
 {% block content %}
-  <nav>
-    <a href="{% url 'income_list' %}">Income</a>
-    <br>
-    <a href="{% url 'expense_list' %}">Expenses</a>
-  </nav>
+  <article>
+    <nav>
+      <a href="{% url 'income_list' %}">Income</a>
+      <br>
+      <a href="{% url 'expense_list' %}">Expenses</a>
+    </nav>
+    <div>
+      <h3>Avalable: {{ available }}</h3>
+      <p>Total Income {{ total_income }}</p>
+      <p>Total Expense {{ total_expense }}</p>
+    </div>
+  </article>
 {% endblock %}
