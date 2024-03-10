@@ -12,9 +12,16 @@ class Saving(models.Model):
   date = models.DateTimeField(
     auto_now_add = True,
   )
+  amount_saving = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0,
+    blank=True,
+    null=True,
+  )
 
   def __str__(self):
-    return self.title
+    return f'{self.title}: ${self.amount_saving}'
 
 class SavingAllocation(models.Model):
   taken_from = models.ForeignKey(
@@ -35,6 +42,25 @@ class SavingAllocation(models.Model):
 
   def __str__(self):
     return f'{self.saving.title}: ${self.amount}'
+  
+  def save(self, *args, **kwargs):
+    super().save(*args, **kwargs)
+
+    self.taken_from.amount_available -= self.amount
+    self.taken_from.save()
+
+    self.saving.amount_saving += self.amount
+    self.saving.save()
+
+  def delete(self, *args, **kwargs):
+    if self.taken_from.amount_available is not None:
+      self.taken_from.amount_available += self.amount
+      self.taken_from.save()
+
+    self.saving.amount_saving -= self.amount
+    self.saving.save()
+
+    super().delete(*args, **kwargs)
 
 class WishList(models.Model):
   title = models.CharField(
@@ -109,6 +135,9 @@ class SavingGoalAllocation(models.Model):
 
     self.saving_goal.current_amount += self.amount
     self.saving_goal.save()
+
+    self.taken_from.amount_available -= self.amount
+    self.taken_from.save()
 
     if self.saving_goal.current_amount >= self.saving_goal.goal:
       self.saving_goal.is_achieved = True
