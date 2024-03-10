@@ -15,7 +15,7 @@ class Income(models.Model):
   amount_available = models.DecimalField(
     max_digits=10,
     decimal_places=2,
-    default=0,
+    default=None,
     blank=True,
     null=True,
   )
@@ -24,9 +24,8 @@ class Income(models.Model):
     return f'{self.title}: ${self.amount_available}/{self.amount}'
   
   def save(self, *args, **kwargs):
-    super().save(*args, **kwargs)
-
-    self.amount_available = self.amount
+    if self.amount_available is None:
+      self.amount_available = self.amount
 
     super().save(*args, **kwargs)
 

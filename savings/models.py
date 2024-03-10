@@ -142,3 +142,14 @@ class SavingGoalAllocation(models.Model):
     if self.saving_goal.current_amount >= self.saving_goal.goal:
       self.saving_goal.is_achieved = True
       self.saving_goal.save()
+  
+  def delete(self, *args, **kwargs):
+    self.taken_from.amount_available += self.amount
+    self.taken_from.save()
+
+    self.saving_goal.current_amount -= self.amount
+    if self.saving_goal.current_amount < self.saving_goal.goal:
+      self.saving_goal.is_achieved = False
+    self.saving_goal.save()
+
+    super().delete(*args, **kwargs)
