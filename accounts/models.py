@@ -7,3 +7,6 @@ class User(AbstractUser):
     decimal_places=2,
     default=0,
   )
+
+  def __str__(self):
+    return f'{self.username}. Available money: ${self.available_money}'

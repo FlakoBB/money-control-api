@@ -3,7 +3,9 @@ from .models import *
 
 admin.site.register(Saving)
 admin.site.register(SavingAllocation)
+admin.site.register(SavingWithdrawal)
 admin.site.register(WishList)
 admin.site.register(WishListItem)
 admin.site.register(SavingGoal)
 admin.site.register(SavingGoalAllocation)
+admin.site.register(SavingGoalWithdrawal)

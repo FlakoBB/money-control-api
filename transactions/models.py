@@ -1,8 +1,13 @@
 from django.db import models
+from accounts.models import User
 
 class Income(models.Model):
   title = models.CharField(
     max_length=100,
+  )
+  description = models.TextField(
+    blank=True,
+    null=True,
   )
   amount = models.DecimalField(
     max_digits=10,
@@ -11,22 +16,19 @@ class Income(models.Model):
   date = models.DateTimeField(
     auto_now_add=True,
   )
-  amount_available = models.DecimalField(
-    max_digits=10,
-    decimal_places=2,
-    default=None,
-    blank=True,
-    null=True,
+  user = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
   )
 
   def __str__(self):
-    return f'{self.title}: ${self.amount_available}/{self.amount}'
+    return f'{self.user.username}: {self.title}: ${self.amount}'
   
   def save(self, *args, **kwargs):
-    if self.amount_available is None:
-      self.amount_available = self.amount
-
     super().save(*args, **kwargs)
+
+    self.user.available_money += self.amount
+    self.user.save()
 
 class ExpenseCategory(models.Model):
   title = models.CharField(
@@ -36,6 +38,10 @@ class ExpenseCategory(models.Model):
     null=True,
     blank=True,
   )
+  user = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
+  )
 
   def __str__(self):
     return self.title
@@ -44,6 +50,16 @@ class Expense(models.Model):
   title = models.CharField(
     max_length=100,
   )
+  category = models.ForeignKey(
+    ExpenseCategory,
+    null=True,
+    blank=True,
+    on_delete=models.SET_NULL,
+  )
+  description = models.TextField(
+    blank=True,
+    null=True,
+  )
   amount = models.DecimalField(
     max_digits=10,
     decimal_places=2,
@@ -51,32 +67,16 @@ class Expense(models.Model):
   date = models.DateTimeField(
     auto_now_add=True,
   )
-  taken_from = models.ForeignKey(
-    Income,
+  user = models.ForeignKey(
+    User,
     on_delete=models.CASCADE,
-  )
-  is_necessary = models.BooleanField(
-    default=False,
-  )
-  category = models.ForeignKey(
-    ExpenseCategory,
-    null=True,
-    blank=True,
-    on_delete=models.SET_NULL,
   )
 
   def __str__(self):
-    return f'{self.title}: ${self.amount}'
+    return f'{self.user.username}: {self.title}: ${self.amount}'
   
   def save(self, *args, **kwargs):
     super().save(*args, **kwargs)
 
-    self.taken_from.amount_available -= self.amount
-    self.taken_from.save()
-  
-  def delete(self, *args, **kwargs):
-    if self.taken_from.amount_available is not None:
-      self.taken_from.amount_available += self.amount
-      self.taken_from.save()
-
-    super().delete(*args, **kwargs)
+    self.user.available_money -= self.amount
+    self.user.save()
