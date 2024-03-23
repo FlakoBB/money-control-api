@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from accounts.models import User
 
 class Income(models.Model):
@@ -78,5 +79,8 @@ class Expense(models.Model):
   def save(self, *args, **kwargs):
     super().save(*args, **kwargs)
 
-    self.user.available_money -= self.amount
-    self.user.save()
+    if self.user.available_money >= self.amount:
+      self.user.available_money -= self.amount
+      self.user.save()
+    else:
+      raise ValidationError("The amount exceeds the user's available money.")
