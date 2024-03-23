@@ -6,15 +6,22 @@
 
 {% block content %}
   <article>
-    <nav>
-      <a href="{% url 'income_list' %}">Income</a>
-      <br>
-      <a href="{% url 'expense_list' %}">Expenses</a>
-    </nav>
     <div>
-      <h3>Avalable: {{ available }}</h3>
-      <p>Total Income {{ total_income }}</p>
-      <p>Total Expense {{ total_expense }}</p>
+      <h2>Available <span>{{ request.user.available_money }}</span></h2>
+      <h3>Last transactions</h3>
+      <ul>
+        {% if last_transactions %}
+          {% for transaction in last_transactions %}
+            <li>
+              <span>{{ transaction.type }}</span>
+              <p>Amount: {{ transaction.amount }}</p>
+              <p>date: {{ transaction.date }}</p>
+            </li>
+          {% endfor %}
+        {% else %}
+          <p>There are any transactions.</p>
+        {% endif %}
+      </ul>
     </div>
   </article>
 {% endblock %}

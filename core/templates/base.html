@@ -12,14 +12,20 @@
   <link rel="stylesheet" href="{% static 'styles/globals.css' %}">
 </head>
 <body>
-  <header>
+  <header class="main_header">
     <h1>
       {% block heading %}
       {% endblock %}
     </h1>
-    <button type="button" class="primary_btn">Logout</button>
+    <nav class="menu">
+      <a href="" class="menu_item">Incomes</a>
+      <a href="" class="menu_item">Expenses</a>
+      <a href="" class="menu_item">Savings</a>
+      <a href="" class="menu_item">Saving Goals</a>
+      <a href="" class="menu_item">Wish List</a>
+    </nav>
   </header>
-  <main>
+  <main class="main_container">
     {% block content %}
     {% endblock %}
   </main>

@@ -2,24 +2,30 @@ from django.shortcuts import render
 from transactions.models import Income, Expense
 
 def index(request):
-  incomes = Income.objects.values_list('amount', flat=True)
+  transactions = []
 
-  total_income = 0
-  for amount in incomes:
-    total_income += amount
+  incomes = Income.objects.values('amount', 'date')[:5]
+  for income in incomes:
+    transaction = {
+      'type': 'Income',
+      'amount': income['amount'],
+      'date': income['date'],
+    }
+    transactions.append(transaction)
 
-  expenses = Expense.objects.values_list('amount', flat=True)
+  expenses = Expense.objects.values('amount', 'date')[:5]
+  for expense in expenses:
+    transaction = {
+      'type': 'Expense',
+      'amount': expense['amount'],
+      'date': expense['date'],
+    }
+    transactions.append(transaction)
 
-  total_expense = 0
-  for amount in expenses:
-    total_expense += amount
-
-  available = total_income - total_expense
+  last_transactions = sorted(transactions, key=lambda transaction: transaction['date'], reverse=True)
 
   context = {
-    'total_income': total_income,
-    'total_expense': total_expense,
-    'available': available,
+    'last_transactions': last_transactions,
   }
 
   return render(request, 'core/index.html', context)
