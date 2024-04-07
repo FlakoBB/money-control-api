@@ -3,7 +3,7 @@ from .models import Income, Expense
 from .forms import NewIncomForm, NewExpenseForm
 
 def income_list(request):
-  income = Income.objects.all()
+  income = Income.objects.all().order_by('-date')
 
   context = {
     'incomes': income,
@@ -29,7 +29,7 @@ def add_income(request):
   return render(request, 'transactions/add_income.html', context)
 
 def expense_list(request):
-  expenses = Expense.objects.all()
+  expenses = Expense.objects.all().order_by('-date')
 
   context = {
     'expenses': expenses,

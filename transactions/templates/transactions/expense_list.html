@@ -9,14 +9,14 @@
 {% endblock %}
 
 {% block content %}
-  <h2>All Expenses</h2>
+  <h2>Expenses</h2>
   <nav>
     <a href="{% url 'add_expense' %}">Add</a>
   </nav>
   <ul>
     {% for expense in expenses %}
       <li>
-        <h3>{{ expense.title }}</h3>
+        <span>{{ expense.title }}</span>
         <p>${{ expense.amount|floatformat:'2g' }}</p>
         <p>{{ expense.date }}</p>
       </li>

@@ -18,11 +18,13 @@
       {% endblock %}
     </h1>
     <nav class="menu">
-      <a href="" class="menu_item">Incomes</a>
-      <a href="" class="menu_item">Expenses</a>
+      <a href="{% url 'home' %}" class="menu_item">Home</a>
+      <a href="{% url 'income_list' %}" class="menu_item">Incomes</a>
+      <a href="{% url 'expense_list' %}" class="menu_item">Expenses</a>
       <a href="" class="menu_item">Savings</a>
       <a href="" class="menu_item">Saving Goals</a>
       <a href="" class="menu_item">Wish List</a>
+      <a href="{% url 'logout' %}" class="menu_item">Logout</a>
     </nav>
   </header>
   <main class="main_container">
