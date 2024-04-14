@@ -11,7 +11,15 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <p><input placeholder="Title" type="text" name="title" id=""></p>
+    {% if title_error %}
+      <p>{{ title_error }}</p>
+    {% endif %}
+    <p><input placeholder="Amount" type="number" name="amount" id=""></p>
+    {% if amount_error %}
+      <p>{{ amount_error }}</p>
+    {% endif %}
+    <p><textarea placeholder="Description" name="description" id="" cols="30" rows="5"></textarea></p>
     <input type="submit" value="Agregar">
   </form>
 {% endblock %}

@@ -6,6 +6,7 @@
 
 {% block content %}
   <article>
+    <h1>Hola, {{ request.user.username }}</h1>
     <div>
       <h2>Available <span>{{ request.user.available_money }}</span></h2>
       <h3>Last transactions</h3>
