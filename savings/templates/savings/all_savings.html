@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Ahorros
+{% endblock %}
+
+{% block heading %}
+  Tus ahorros
+{% endblock %}
+
+{% block content %}
+  <a href="{% url 'create_saving' %}">Add</a>
+  <ul>
+    {% for saving in savings %}
+      <li>
+        <h3>{{ saving.title }}</h3>
+        <h4>{{ saving.amount_saving }}</h4>
+        {% if saving.description %}
+          <p>{{ saving.description }}</p>
+        {% endif %}
+        <p>{{ saving.creation_date }}</p>
+        <a href="{% url 'saving_details' saving_id=saving.id %}">ver detalles</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

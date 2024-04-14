@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ saving.title }}
+{% endblock %}
+
+{% block heading %}
+  {{ saving.title }}
+{% endblock %}
+
+{% block content %}
+  <h2>{{ saving.amount_saving }}</h2>
+  {% if saving.description %}
+    <p>{{ saving.description }}</p>
+  {% endif %}
+  <p>{{ saving.creation_date }}</p>
+{% endblock %}
