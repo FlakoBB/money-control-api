@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Retiro de meta de ahorro
+{% endblock %}
+
+{% block heading %}
+  Retirar
+{% endblock %}
+
+{% block content %}
+  <h2>Retirar dinero del ahorro: {{ saving_title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p><input type="number" placeholder="Cantidad" name="amount"></p>
+    {% if amount_error %}
+      <p>{{ amount_error }}</p>
+    {% endif %}
+    <input type="submit" value="Retirar">
+  </form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ saving_goal.title }}
+{% endblock %}
+
+{% block heading %}
+  {{ saving_goal.title }}
+{% endblock %}
+
+{% block content %}
+  <h2>{{ saving_goal.current_amount }} / {{ saving_goal.goal }}</h2>
+  {% if saving_goal.description %}
+    <p>{{ saving_goal.description }}</p>
+  {% endif %}
+  <p>
+    {% if saving_goal.is_achieved %}
+      Meta alcanzada
+    {% else %}
+      Meta no alcanzada
+    {% endif %}
+  </p>
+  <a href="{% url 'add_saving_goal_funds' saving_goal_id=saving_goal.id %}">Agragar dinero</a>
+  <a href="{% url 'withdraw_from_saving_goal' saving_goal_id=saving_goal.id %}">Retirar dinero</a>
+{% endblock %}

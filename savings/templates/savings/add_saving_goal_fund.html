@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  New Saving Goal Fund
+{% endblock %}
+
+{% block heading %}
+  Create Saving Goal Fund
+{% endblock %}
+
+{% block content %}
+  <h2>Agregar dinero al ahorro: {{ saving_title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p><input type="number" placeholder="Cantidad" name="amount"></p>
+    {% if amount_error %}
+      <p>{{ amount_error }}</p>
+    {% endif %}
+    <input type="submit" value="Agregar">
+  </form>
+{% endblock %}

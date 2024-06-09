@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  New Saving Goal
+{% endblock %}
+
+{% block heading %}
+  Create Saving Goal
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p><input type="text" placeholder="Title" name="title"></p>
+    {% if title_error %}
+      <p>{{ title_error }}</p>
+    {% endif %}
+    <p><textarea name="description" id="" cols="30" rows="5"></textarea></p>
+    <p><input type="number" placeholder="Goal" name="goal"></p>
+    {% if goal_error %}
+      <p>{{ goal_error }}</p>
+    {% endif %}
+    <input type="submit" value="Crear">
+  </form>
+{% endblock %}

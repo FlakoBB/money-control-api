@@ -5,7 +5,7 @@ def index(request):
   user = request.user
   transactions = []
 
-  incomes = Income.objects.filter(user=user).values('amount', 'date')[:5]
+  incomes = Income.objects.filter(user=user.id).values('amount', 'date')[:5]
   for income in incomes:
     transaction = {
       'type': 'Income',
@@ -14,7 +14,7 @@ def index(request):
     }
     transactions.append(transaction)
 
-  expenses = Expense.objects.filter(user=user).values('amount', 'date')[:5]
+  expenses = Expense.objects.filter(user=user.id).values('amount', 'date')[:5]
   for expense in expenses:
     transaction = {
       'type': 'Expense',
