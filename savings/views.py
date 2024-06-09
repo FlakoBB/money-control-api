@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .models import Saving, SavingAllocation, SavingWithdrawal, SavingGoal, SavingGoalAllocation, SavingGoalWithdrawal
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Saving, SavingAllocation, SavingWithdrawal, SavingGoal, SavingGoalAllocation, SavingGoalWithdrawal, WishList, WishListItem
 
 # * SAVING VIEWS
 def saving_list(request):
@@ -197,3 +197,87 @@ def withdraw_from_saving_goal(request, saving_goal_id):
       return render(request, 'savings/withdraw_from_saving_goal.html', context)
   
   return render(request, 'savings/withdraw_from_saving_goal.html', context)
+
+def all_wish_list(request):
+  user = request.user
+
+  wish_lists = WishList.objects.filter(user=user)
+
+  context = {
+    'wish_lists': wish_lists
+  }
+
+  return render(request, 'savings/wish_lists.html', context)
+
+def create_wish_list(request):
+  user = request.user
+
+  if request.method == 'POST':
+    form = request.POST
+
+    title = form['title']
+    description = form['description']
+
+    if title != '':
+      if description != '':
+        WishList.objects.create(title=title, description=description, user=user)
+      else:
+        WishList.objects.create(title=title, user=user)
+
+      return redirect('all_wish_list')
+    else:
+      context = {
+        'title_error': 'Debes definir un titulo.'
+      }
+
+      return render(request, 'savings/create_wish_list.html', context)
+  
+  return render(request, 'savings/create_wish_list.html')
+
+def wish_list_details(request, wish_list_id):
+  wish_list = WishList.objects.get(id=wish_list_id)
+
+  items = WishListItem.objects.filter(wish_list=wish_list)
+
+  context = {
+    'wish_list': wish_list,
+    'items': items
+  }
+
+  return render(request, 'savings/wish_list_details.html', context)
+
+def add_item(request, wish_list_id):
+  wish_list = WishList.objects.get(id=wish_list_id)
+
+  context = {
+    'wish_list': wish_list
+  }
+
+  if request.method == 'POST':
+    form =  request.POST
+
+    name = form['name']
+    price = int(form.get('price') or 0)
+
+    if name != '' and price != 0:
+      WishListItem.objects.create(name=name, price=price, wish_list=wish_list)
+
+      return redirect('wish_list_details', wish_list_id)
+    
+    else:
+      if name == '':
+        context['name_error'] = 'Debes asignar un nombre'
+      
+      if price == 0:
+        context['price_error'] = 'Debes proporcionar un precio'
+
+      return render(request, 'savings/add_item.html', context)
+  
+  return render(request, 'savings/add_item.html', context)
+
+def delete_item(request, wish_list_id, item_id):
+  item = get_object_or_404(WishListItem, id=item_id)
+
+  item.delete()
+
+  return redirect('wish_list_details', wish_list_id)

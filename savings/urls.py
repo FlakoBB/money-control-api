@@ -14,4 +14,10 @@ urlpatterns = [
   path('saving-goals/details/<int:saving_goal_id>/', views.saving_goal_details, name='saving_goal_details'),
   path('saving-goals/<int:saving_goal_id>/add/', views.add_saving_goal_funds, name='add_saving_goal_funds'),
   path('saving-goals/<int:saving_goal_id>/withdraw/', views.withdraw_from_saving_goal, name='withdraw_from_saving_goal'),
+  # * WISH LIST URLS
+  path('wish-lists/', views.all_wish_list, name='all_wish_list'),
+  path('wish-lists/create', views.create_wish_list, name='create_wish_list'),
+  path('wish-lists/<int:wish_list_id>', views.wish_list_details, name='wish_list_details'),
+  path('wish-lists/<int:wish_list_id>/add-item/', views.add_item, name='add_item'),
+  path('wish-lists/<int:wish_list_id>/delete-item/<int:item_id>/', views.delete_item, name='delete_item'),
 ]

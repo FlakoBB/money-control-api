@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Wish List
+{% endblock %}
+
+{% block heading %}
+ {{ wish_list.title }}
+{% endblock %}
+
+{% block content %}
+  <h2>Items</h2>
+  <a href="{% url 'add_item' wish_list_id=wish_list.id %}">Add Item</a>
+  {% if wish_list.description %}
+    <p>{{ wish_list.description }}</p>
+  {% endif %}
+  <ul>
+    {% for item in items %}
+      <li>
+        <h3>{{ item.name }}</h3>
+        <p>${{ item.price }}</p>
+        <p>Added: {{ item.date }}</p>
+        <p><a href="{% url 'delete_item' wish_list_id=wish_list.id item_id=item.id %}">Borrar</a></p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Wish lists
+{% endblock %}
+
+{% block heading %}
+  Tus Wish Lists
+{% endblock %}
+
+{% block content %}
+  <a href="{% url 'create_wish_list' %}">Add</a>
+    <ul>
+      {% for wish_list in wish_lists %}
+        <li>
+          <h3>{{ wish_list.title }}</h3>
+          {% if wish_list.description %}
+            <p>{{ wish_list.description }}</p>
+          {% endif %}
+          <a href="{% url 'wish_list_details' wish_list_id=wish_list.id %}">ver items</a>
+        </li>
+      {% endfor %}
+    </ul>
+{% endblock %}

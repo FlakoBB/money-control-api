@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  New Item
+{% endblock %}
+
+{% block heading %}
+  Add Item
+{% endblock %}
+
+{% block content %}
+  <h2>Agregar item a la wish list: {{ wish_list.title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p><input type="text" placeholder="Nombre" name="name"></p>
+    {% if name_error %}
+      <p>{{ name_error }}</p>
+    {% endif %}
+    <p><input type="number" placeholder="Precio" name="price"></p>
+    {% if price_error %}
+      <p>{{ price_error }}</p>
+    {% endif %}
+    <input type="submit" value="Agregar">
+  </form>
+{% endblock %}
