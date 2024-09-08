@@ -25,4 +25,5 @@ urlpatterns = [
     path('savings/', include('savings.urls')),
     # * API URLS
     path('api/v1/accounts/', include('accounts.urls')),
+    path('api/v1/transactions/', include('transactions.api.urls')),
 ]
